@@ -1,0 +1,93 @@
+:root {
+  --color-light-grey: rgba(0, 0, 0, 0.2);
+}
+
+/* CSS reset */
+body {
+  margin: 10px;
+  padding: 0;
+}
+a {
+  text-decoration: none;
+  color: var(--color-white);
+}
+ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+}
+li {
+  list-style: none;
+}
+button {
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+/* main */
+#main {
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* score */
+.score {
+  border: 2px solid var(--color-light-grey);
+  width: 220px;
+  height: 50px;
+  justify-content: space-between;
+  margin: auto;
+  margin-bottom: 25px;
+}
+
+.components {
+  width: 500px;
+  margin: auto;
+}
+.main {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* board */
+#board {
+  max-width: 250px;
+}
+#board ul {
+  display: flex;
+}
+#board li {
+  border: 1px solid var(--color-light-grey);
+  width: 20px;
+  height: 20px;
+  opacity: 0.6;
+}
+
+/* level */
+#level {
+  width: 100px;
+
+  margin: auto 0;
+}
+.level {
+  float: right;
+  border: 2px solid var(--color-light-grey);
+  width: 60px;
+  height: 400px;
+}
+
+/* next blocks */
+#next__blocks {
+  width: 100px;
+}
+.next__blocks {
+  width: 80px;
+  height: 260px;
+}
+.next__block {
+  border: 2px solid var(--color-light-grey);
+  height: 80px;
+  margin-bottom: 5px;
+}
