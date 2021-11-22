@@ -9,54 +9,61 @@ let board = new Array();
 
 // blocks : array
 // rotation : clockwise rotation
-const BLOCKS = {
-	shape__1: {
-		w: [[0,0], [0,1], [1,0], [1,1]],
-		d: [[0,0], [0,1], [1,0], [1,1]],
-		s: [[0,0], [0,1], [1,0], [1,1]],
-		a: [[0,0], [0,1], [1,0], [1,1]]
-	},
-	shape__2: {
-		w: [[0,1],[1,0],[1,1],[1,2]],
-		d: [[0,0],[1,0],[1,1],[2,0]],
-		s: [[0,0],[0,1],[0,2],[1,1]],
-		a: [[0,1],[1,0],[1,1],[2,1]]
-	},
-	shape__3: {
-		w: [[0,0],[1,0],[1,1],[1,2]],
-		d: [[0,0],[0,1],[1,0],[2,0]],
-		s: [[0,0],[0,1],[0,2],[1,2]],
-		a: [[0,1],[1,1],[2,1],[2,0]]
-	},
-	shape__4: {
-		w: [[1,0],[1,1],[1,2],[0,2]],
-		d: [[0,0],[1,0],[2,0],[2,1]],
-		s: [[0,0],[0,1],[0,2],[1,0]],
-		a: [[0,0],[0,1],[1,1],[2,1]]
-	},
-	shape__5: {
-		w: [[0,0],[0,1],[1,1],[1,2]],
-		d: [[0,1],[1,1],[1,0],[2,0]],
-		s: [[0,0],[0,1],[1,1],[1,2]],
-		a: [[0,1],[1,1],[1,0],[2,0]]
-	},
-	shape__6: {
-		w: [[0,1],[0,2],[1,0],[1,1]],
-		d: [[0,0],[1,0],[1,1],[2,1]],
-		s: [[0,1],[0,2],[1,0],[1,1]],
-		a: [[0,0],[1,0],[1,1],[2,1]]
-	},
-	shape__7: {
-		w: [[0,0],[1,0],[2,0],[3,0]],
-		d: [[0,0],[0,1],[0,2],[0,3]],
-		s: [[0,0],[1,0],[2,0],[3,0]],
-		a: [[0,0],[1,0],[2,0],[3,0]]
-	}
-}
+const BLOCKS = [ 
+		[		// shape__1
+			[[0,0],[0,1],[1,0],[1,1]],
+			[[0,0],[0,1],[1,0],[1,1]],
+			[[0,0],[0,1],[1,0],[1,1]],
+			[[0,0],[0,1],[1,0],[1,1]]
+		],[	// shape__2
+			[[0,1],[1,0],[1,1],[1,2]],
+			[[0,0],[1,0],[1,1],[2,0]],
+			[[0,0],[0,1],[0,2],[1,1]],
+			[[0,1],[1,0],[1,1],[2,1]]
+		],[	// shape__3
+			[[0,0],[1,0],[1,1],[1,2]],
+			[[0,0],[0,1],[1,0],[2,0]],
+			[[0,0],[0,1],[0,2],[1,2]],
+			[[0,1],[1,1],[2,1],[2,0]]
+		],[	// shape__4
+			[[1,0],[1,1],[1,2],[0,2]],
+			[[0,0],[1,0],[2,0],[2,1]],
+			[[0,0],[0,1],[0,2],[1,0]],
+			[[0,0],[0,1],[1,1],[2,1]]
+		],[	// shape__5
+			[[0,0],[0,1],[1,1],[1,2]],
+			[[0,1],[1,1],[1,0],[2,0]],
+			[[0,0],[0,1],[1,1],[1,2]],
+			[[0,1],[1,1],[1,0],[2,0]]
+		],[	// shape__6
+			[[0,1],[0,2],[1,0],[1,1]],
+			[[0,0],[1,0],[1,1],[2,1]],
+			[[0,1],[0,2],[1,0],[1,1]],
+			[[0,0],[1,0],[1,1],[2,1]]
+		],[	// shape__7
+			[[0,0],[1,0],[2,0],[3,0]],
+			[[0,0],[0,1],[0,2],[0,3]],
+			[[0,0],[1,0],[2,0],[3,0]],
+			[[0,0],[1,0],[2,0],[3,0]]
+		]
+];
+	
 
 document.body.onload = create_board();
-console.log(BLOCKS[0]);
-create_block();
+const random_block = Math.floor(Math.random()*7);
+const current_block = create_block(random_block);
+
+// keyboard eventlistener
+let keydown_num = 0;
+document.addEventListener('keydown', (event) => {
+	const SPACEBAR = ' ';
+	if(event.key === SPACEBAR) {
+		delete_block(current_block, keydown_num);
+		keydown_num = ++keydown_num % 4
+		rotate_block(current_block, keydown_num);
+	}
+	
+})
 
 
 
@@ -78,12 +85,35 @@ function create_board() {
 	}
 }
 
+
 // create a block
-function create_block() {
-	const max_spaces = 4;
-	for(let i = 0; i < max_spaces; i++) {
-		const x = BLOCKS.shape__5.w[i][0];
-		const y = BLOCKS.shape__5.w[i][1];
+function create_block(shape, direction = 0) {
+	const MAX_SPACES = 4;
+	for(let space = 0; space < MAX_SPACES; space++) {
+		const x = BLOCKS[shape][direction][space][0];
+		const y = BLOCKS[shape][direction][space][1];
 		board[x][y].style.setProperty('background-color', 'pink');
 	}
+	return BLOCKS[shape];
+}
+
+// delete a existing block
+function delete_block(shape, direction) {
+	const MAX_SPACES = 4;
+	for(let space = 0; space < MAX_SPACES; space++) {
+		const x = shape[direction][space][0];
+		const y = shape[direction][space][1];
+		board[x][y].style.setProperty('background-color', 'white');
+	}
+}
+
+// rotate a block
+function rotate_block(shape, direction) {
+	const MAX_SPACES = 4;
+	for(let space = 0; space < MAX_SPACES; space++) {
+		const x = shape[direction][space][0];
+		const y = shape[direction][space][1];
+		board[x][y].style.setProperty('background-color', 'pink');
+	}
+	console.log(shape[direction]);
 }
