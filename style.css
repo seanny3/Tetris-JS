@@ -32,6 +32,15 @@ button {
   margin: auto;
 }
 
+/* real-time */
+.clock {
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 40px;
+}
+
 /* score */
 .score {
   border: 2px solid var(--color-light-grey);

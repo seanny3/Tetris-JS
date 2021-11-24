@@ -4,9 +4,6 @@
 const WIDTH = 10;
 const HEIGHT = 20;
 
-// board : array
-let board = new Array();
-
 // blocks : array
 // rotation : clockwise rotation
 const BLOCKS = [ 
@@ -49,41 +46,50 @@ const BLOCKS = [
 ];
 // BLOCKS[shape][direction][space][upDown,side]
 
+// get Left Time
+var time = 1;
+var timer = setInterval(setLeftTime, 1000);
+
+// loop
+var loop = setInterval(gameLoop, 800);
+
+// main
 document.body.onload = create_board();
-const current_block = create_block();		// create an undefiend direction ( return: BLOCK[shape][?] )
+let current_block = create_block();		// create an undefiend direction ( current_block = BLOCK[shape] )
+
+
+
+
+
+
 
 // keyboard eventlistener
 let direction = 0;	// increase by 1 every time when you press SPACEBAR (0~3) --> defined direction
 document.addEventListener('keydown', (event) => {
 	const SPACEBAR = ' ';
-	if(event.key === SPACEBAR) {
-		delete_block(current_block[direction]);
-		direction = ++direction % 4;
-		rotate_block(current_block[direction]);
-	} 
-	else if (event.key === 'ArrowRight') {
-		delete_block(current_block[direction]);
-		move_block(current_block, direction, 0, 1);
-	} 
-	else if (event.key === 'ArrowLeft') {
-		delete_block(current_block[direction]);
-		move_block(current_block, direction, 0, -1);
-	} 
-	else if (event.key === 'ArrowDown') {
-		delete_block(current_block[direction]);
-		move_block(current_block, direction, 1, 0);
+
+	switch(event.key) {
+		case SPACEBAR:
+			let tmp = direction;
+			direction = ++direction % 4;
+			rotate_block(current_block, direction, tmp);
+			break;
+		case 'ArrowRight':
+			move_block(current_block, direction, 0, 1);
+			break;
+		case 'ArrowLeft':  
+			move_block(current_block, direction, 0, -1);
+			break;
+		case 'ArrowDown':
+			move_block(current_block, direction, 1, 0);
+			break;
+		default:
+			break;
 	}
-	else {
-		return;
-	}
-				
-	
 })
 
 
-
-
-// functions
+// block functions
 
 // create a board
 function create_board() {
@@ -114,23 +120,29 @@ function delete_block(block) {
 	for(let space = 0; space < MAX; space++) {
 		let upDown = block[space][0];
 		let side = block[space][1];
-		board[upDown][side].style.setProperty('background-color', 'white');
+		board[upDown][side].style.removeProperty('background-color');
 	}
 }
 // rotate a block
-function rotate_block(block) {
+function rotate_block(block, current_direction, prev_direction) {
+
+	delete_block(block[prev_direction]);
 	const MAX = 4;
 	for(let space = 0; space < MAX; space++) {
-		let upDown = block[space][0];
-		let side = block[space][1];
+		let upDown = block[current_direction][space][0];
+		let side = block[current_direction][space][1];
 		board[upDown][side].style.setProperty('background-color', 'pink');
 	}
 }
 // move a block
 function move_block(block, current_direction, move_upDown, move_side) {
+	if(is_crash(block[current_direction], move_upDown, move_side)) {
+		return;
+	}
+	delete_block(block[current_direction]);
 	const MAX = 4;
 	for(let direction = 0; direction < MAX; direction++) {
-		for(let space = 0; space < MAX; space++) {
+			for(let space = 0; space < MAX; space++) {
 			block[direction][space][0] += move_upDown;
 			block[direction][space][1] += move_side;
 		}
@@ -141,3 +153,41 @@ function move_block(block, current_direction, move_upDown, move_side) {
 		board[upDown][side].style.setProperty('background-color', 'pink');
 	}
 }
+// crash check
+function is_crash(block, move_upDown, move_side) {
+	let bool = false;
+	
+	block.some((space) => {
+		if(space[0] + move_upDown >= HEIGHT) {
+			bool =  true;
+		}
+		if(space[1] + move_side < 0 || space[1] + move_side >= WIDTH) {
+			bool = true;
+		}
+	})
+	return bool;
+}
+
+
+
+// real-time function
+
+// timer
+function setLeftTime() {
+	const clock = document.querySelector('.clock');
+	clock.innerHTML = time--;
+	if(time < 0) {
+		clearInterval(timer);
+		clearInterval(loop);
+		clock.innerHTML = "게임오버!";
+
+		return;
+	}
+}
+
+// gameLoop
+function gameLoop() {
+	move_block(current_block, direction, 1, 0);
+}
+
+
