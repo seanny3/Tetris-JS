@@ -100,3 +100,8 @@ button {
   height: 80px;
   margin-bottom: 5px;
 }
+
+/* freeze */
+.freeze {
+  background-color: pink;
+}
