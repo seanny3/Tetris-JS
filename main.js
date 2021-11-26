@@ -6,7 +6,7 @@
 
 // board's width, height : const
 const WIDTH = 10;
-const HEIGHT = 20;
+const HEIGHT = 24;
 // board
 var board = new Array();
 	
@@ -14,13 +14,15 @@ var board = new Array();
 var current_block;
 var create_count = 0;
 var is_freeze = false;
+var gameover = false;
 var direction = 0;	// increase by 1 every time when you press 
 
 // get Left Time
 var time = 100;
 var timer = setInterval(setLeftTime, 1000);
 // loop
-var loop = setInterval(gameLoop, 500);
+const speed = 300;
+var loop = setInterval(gameLoop, speed);
 // main
 document.body.onload = create_board();
 
@@ -32,7 +34,7 @@ document.body.onload = create_board();
 // keyboard eventlistener
 document.addEventListener('keydown', (event) => {
 	// 바닥에 부딪혔을 때 'keydown'이벤트 중지
-	if(is_freeze) {
+	if(is_freeze || gameover) {
 		return;
 	}
 	const SPACEBAR = ' ';
@@ -63,8 +65,9 @@ document.addEventListener('keydown', (event) => {
 function init_block() {
 	current_block = create_block();
 	direction = 0;
+	loop = setInterval(gameLoop, speed);
+	is_freeze = false;
 }
-
 // create a board
 function create_board() {
 	const target = document.querySelector('#board');
@@ -117,13 +120,7 @@ function create_block() {
 			[[0,0],[0,1],[0,2],[0,3]]
 		]
 	];
-	let rand = Math.floor(Math.random()*7);
-	const blocks = BLOCKS[rand];
-	BLOCKS[rand].forEach((block) => {
-		block.forEach((space) => {
-			console.log(`[${space[0]}, ${space[1]}]`);
-		})
-	})
+	const blocks = BLOCKS[Math.floor(Math.random()*7)];
 	const MAX = 4;
 	blocks.forEach((block) => {
 		block.forEach((space) => {
@@ -183,7 +180,6 @@ function move_block(block, current_direction, move_upDown, move_side) {
 	}
 }
 // freeze block
-
 function freeze_block(block, current_direction) {
 	is_freeze = true;
 	const MAX = 4;
@@ -193,35 +189,54 @@ function freeze_block(block, current_direction) {
 		board[loc_a][loc_b].classList.add('freeze');
 	}
 }
-
 // crash check
 function is_crash(block, current_direction, move_upDown=0, move_side=0) {
-	let insideWall = true;
 	let aboveFloor = true;
 	let bool = false;
 	block[current_direction].forEach((space) => {
+		// 바닥 충돌 확인
 		if(space[0] + move_upDown >= HEIGHT) {
 			bool = true;
 			aboveFloor = false;
 		}
+		// 벽 충돌 확인
 		if(space[1] + move_side < 0 || space[1] + move_side >= WIDTH) {
 			bool = true;
-			insideWall = false;
 		}
+		// 블럭 충돌 확인
+		// try {
+		// 	console.log(`[${space[0]},${space[1]}]`);
+		// 	console.log(`right: ${board[space[0]][space[1]+2].classList.contains('freeze')}`)
+		// 	console.log(`left: ${board[space[0]][space[1]-2].classList.contains('freeze')}`)
+		// 	console.log(`down: ${board[space[0]+1][space[1]].classList.contains('freeze')}`)
+		// } catch(e) {}
+		
+		try {
+			if(
+				(board[space[0]+1][space[1]].classList.contains('freeze'))
+				) {
+
+					bool = true;
+					console.log('블럭이랑 부딪힘!!!');
+					clearInterval(loop);
+					freeze_block(block, current_direction);
+					init_block();
+					return bool;
+				}
+		} catch(e) {
+	
+		}
+
 	})
+
+	// 충돌 후 다음 블럭 생성
 	if(!aboveFloor) {
 		clearInterval(loop);
 		freeze_block(block, current_direction);
 		init_block();
-		loop = setInterval(gameLoop,500);
-		is_freeze = false;
-		
 	}
-	
 	return bool;
 }
-
-
 
 // real-time function
 
@@ -232,14 +247,13 @@ function setLeftTime() {
 	if(time < 0) {
 		clearInterval(timer);
 		clearInterval(loop);
+		gameover = true;
 		clock.innerHTML = "게임오버!";
 		return;
 	}
 }
 
 // gameLoop
-
-
 function gameLoop() {
 	if(create_count === 0) {
 		current_block = create_block();
