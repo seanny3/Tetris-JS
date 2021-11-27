@@ -21,12 +21,13 @@ var direction = 0;	// increase by 1 every time when you press
 var time = 100;
 var timer = setInterval(setLeftTime, 1000);
 // loop
-const speed = 300;
-var loop = setInterval(gameLoop, speed);
+const speed = 500;
+var loop;
 // main
 document.body.onload = create_board();
 
 
+init_block();
 
 
 
@@ -114,16 +115,17 @@ function create_block() {
 			[[0,1],[0,2],[1,0],[1,1]],
 			[[0,0],[1,0],[1,1],[2,1]]
 		],[	// shape__7
-			[[0,0],[1,0],[2,0],[3,0]],
 			[[0,0],[0,1],[0,2],[0,3]],
 			[[0,0],[1,0],[2,0],[3,0]],
-			[[0,0],[0,1],[0,2],[0,3]]
+			[[0,0],[0,1],[0,2],[0,3]],
+			[[0,0],[1,0],[2,0],[3,0]]
 		]
 	];
 	const blocks = BLOCKS[Math.floor(Math.random()*7)];
 	const MAX = 4;
 	blocks.forEach((block) => {
 		block.forEach((space) => {
+			space[0] += 1;
 			space[1] += 4;
 		})
 	})
@@ -187,6 +189,13 @@ function freeze_block(block, current_direction) {
 		let loc_a = block[current_direction][space][0];
 		let loc_b = block[current_direction][space][1];
 		board[loc_a][loc_b].classList.add('freeze');
+		// 천장 충돌 확인
+		console.log(`space[${space}]: ${loc_a}`);
+		if(loc_a < 5) {
+			gameover = true;
+			clearInterval(timer);
+			delete_block(block, current_direction);
+		}
 	}
 }
 // crash check
@@ -204,31 +213,18 @@ function is_crash(block, current_direction, move_upDown=0, move_side=0) {
 			bool = true;
 		}
 		// 블럭 충돌 확인
-		// try {
-		// 	console.log(`[${space[0]},${space[1]}]`);
-		// 	console.log(`right: ${board[space[0]][space[1]+2].classList.contains('freeze')}`)
-		// 	console.log(`left: ${board[space[0]][space[1]-2].classList.contains('freeze')}`)
-		// 	console.log(`down: ${board[space[0]+1][space[1]].classList.contains('freeze')}`)
-		// } catch(e) {}
-		
 		try {
 			if(
 				(board[space[0]+1][space[1]].classList.contains('freeze'))
 				) {
-
 					bool = true;
-					console.log('블럭이랑 부딪힘!!!');
 					clearInterval(loop);
 					freeze_block(block, current_direction);
 					init_block();
-					return bool;
 				}
 		} catch(e) {
-	
 		}
-
 	})
-
 	// 충돌 후 다음 블럭 생성
 	if(!aboveFloor) {
 		clearInterval(loop);
@@ -242,7 +238,7 @@ function is_crash(block, current_direction, move_upDown=0, move_side=0) {
 
 // timer
 function setLeftTime() {
-	const clock = document.querySelector('.clock');
+	const clock = document.getElementById('timer');
 	clock.innerHTML = time--;
 	if(time < 0) {
 		clearInterval(timer);
@@ -255,11 +251,17 @@ function setLeftTime() {
 
 // gameLoop
 function gameLoop() {
-	if(create_count === 0) {
-		current_block = create_block();
-		create_count++;
+	if(gameover) {
+		return;
 	}
 	move_block(current_block, direction, 1, 0);
 }
+
+
+
+
+// another way
+// HTML : wall, floor, ceiling, freeze 클래스 설정
+// JS : 매 loop 마다 side, upDown classList.contains 검사 
 
 
