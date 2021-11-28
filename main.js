@@ -21,7 +21,7 @@ var direction = 0;	// increase by 1 every time when you press
 var time = 100;
 var timer = setInterval(setLeftTime, 1000);
 // loop
-const speed = 500;
+const speed = 300;
 var loop;
 // main
 document.body.onload = create_board();
@@ -132,7 +132,7 @@ function create_block() {
 	for(let space = 0; space < MAX; space++) {
 		let upDown = blocks[0][space][0];
 		let side = blocks[0][space][1];
-		board[upDown][side].style.setProperty('background-color', 'pink');
+		board[upDown][side].classList.add('current');
 	}
 	return blocks;
 }
@@ -143,7 +143,7 @@ function delete_block(block) {
 		let upDown = block[space][0];
 		let side = block[space][1];
 		board[upDown][side].classList.remove('current');
-		board[upDown][side].style.removeProperty('background-color');
+		
 	}
 }
 // rotate a block
@@ -158,7 +158,7 @@ function rotate_block(block, current_direction, prev_direction) {
 		let upDown = block[current_direction][space][0];
 		let side = block[current_direction][space][1];
 		board[upDown][side].classList.add('current');
-		board[upDown][side].style.setProperty('background-color', 'pink');
+		
 	}
 }
 // move a block
@@ -178,7 +178,7 @@ function move_block(block, current_direction, move_upDown, move_side) {
 		let upDown = block[current_direction][space][0];
 		let side = block[current_direction][space][1];
 		board[upDown][side].classList.add('current');
-		board[upDown][side].style.setProperty('background-color', 'pink');
+		
 	}
 }
 // freeze block
@@ -189,14 +189,16 @@ function freeze_block(block, current_direction) {
 		let loc_a = block[current_direction][space][0];
 		let loc_b = block[current_direction][space][1];
 		board[loc_a][loc_b].classList.add('freeze');
+		// 라인 검사
+
 		// 천장 충돌 확인
-		console.log(`space[${space}]: ${loc_a}`);
 		if(loc_a < 5) {
 			gameover = true;
 			clearInterval(timer);
 			delete_block(block, current_direction);
 		}
 	}
+	
 }
 // crash check
 function is_crash(block, current_direction, move_upDown=0, move_side=0) {
@@ -218,9 +220,7 @@ function is_crash(block, current_direction, move_upDown=0, move_side=0) {
 				(board[space[0]+1][space[1]].classList.contains('freeze'))
 				) {
 					bool = true;
-					clearInterval(loop);
-					freeze_block(block, current_direction);
-					init_block();
+					aboveFloor = false;
 				}
 		} catch(e) {
 		}
@@ -229,9 +229,57 @@ function is_crash(block, current_direction, move_upDown=0, move_side=0) {
 	if(!aboveFloor) {
 		clearInterval(loop);
 		freeze_block(block, current_direction);
+		delete_line();
 		init_block();
 	}
 	return bool;
+}
+// getting points
+function line_check() {
+	let count = 0;
+	let full_line = Array.from({length: HEIGHT-4}, () => false);
+	for(let line = 4; line < HEIGHT; line++) {
+		for(let space = 0; space < WIDTH; space++) {
+			try {
+				if(board[line][space].classList.contains('freeze')) {
+					count++;
+				}
+			} catch(e) {
+			}
+		}
+		if(count === 10) {
+			full_line[line] = true;
+		}
+		count = 0;
+	}
+	return full_line;
+}
+
+function delete_line() {
+	const lines = line_check();
+	for(let line = 0; line < lines.length; line++) {
+		if(lines[line]) {
+			//console.log(`${line} : ${lines[line]}`);
+			// delete
+			for(let space = 0; space < WIDTH; space++) {
+				board[line][space].classList.remove('current');
+				board[line][space].classList.remove('freeze');
+			}
+			// move down
+			for(let i = line-1; i > 3; i--) {
+				for(let j = 0; j < WIDTH; j++) {
+					if(board[i][j].classList.contains('freeze')) {
+						board[i][j].classList.remove('current');
+						board[i][j].classList.remove('freeze');
+						board[i+1][j].classList.add('current');
+						board[i+1][j].classList.add('freeze');
+					}
+				}
+			}
+		}
+
+	}
+	
 }
 
 // real-time function

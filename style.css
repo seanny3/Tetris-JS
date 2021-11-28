@@ -1,7 +1,7 @@
 :root {
   --color-board: rgba(0, 0, 0, 0.3);
   --color-medium-grey: rgba(0, 0, 0, 0.3);
-  --color-light-grey: rgba(0, 0, 0, 0.03);
+  --color-light-grey: rgba(0, 0, 0, 0.1);
 }
 
 /* CSS reset */
@@ -54,7 +54,6 @@ button {
 }
 /* timer */
 #timer {
-  border: 1px solid var(--color-medium-grey);
   width: 220px;
   height: 50px;
   justify-content: space-between;
@@ -150,5 +149,8 @@ button {
 
 /* freeze */
 .freeze {
+  background-color: pink;
+}
+.current {
   background-color: pink;
 }
