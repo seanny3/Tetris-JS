@@ -15,6 +15,7 @@ var current_block;
 var create_count = 0;
 var is_freeze = false;
 var gameover = false;
+var score = 0;
 var direction = 0;	// increase by 1 every time when you press 
 
 // get Left Time
@@ -27,8 +28,8 @@ var loop;
 document.body.onload = create_board();
 
 
+getPoint(score);
 init_block();
-
 
 
 
@@ -80,6 +81,7 @@ function create_board() {
 			target_row.insertAdjacentElement('beforeend', board[i][j]);
 		}
 	}
+	
 }
 // create a block
 function create_block() {
@@ -132,7 +134,9 @@ function create_block() {
 	for(let space = 0; space < MAX; space++) {
 		let upDown = blocks[0][space][0];
 		let side = blocks[0][space][1];
-		board[upDown][side].classList.add('current');
+		try {
+			board[upDown][side].classList.add('current');
+		} catch(e) {}
 	}
 	return blocks;
 }
@@ -142,8 +146,9 @@ function delete_block(block) {
 	for(let space = 0; space < MAX; space++) {
 		let upDown = block[space][0];
 		let side = block[space][1];
-		board[upDown][side].classList.remove('current');
-		
+		try {
+			board[upDown][side].classList.remove('current');
+		} catch(e) {}
 	}
 }
 // rotate a block
@@ -157,7 +162,9 @@ function rotate_block(block, current_direction, prev_direction) {
 	for(let space = 0; space < MAX; space++) {
 		let upDown = block[current_direction][space][0];
 		let side = block[current_direction][space][1];
-		board[upDown][side].classList.add('current');
+		try {
+			board[upDown][side].classList.add('current');
+		} catch(e) {}
 		
 	}
 }
@@ -177,7 +184,9 @@ function move_block(block, current_direction, move_upDown, move_side) {
 	for(let space = 0; space < MAX; space++) {
 		let upDown = block[current_direction][space][0];
 		let side = block[current_direction][space][1];
-		board[upDown][side].classList.add('current');
+		try {
+			board[upDown][side].classList.add('current');
+		} catch(e) {}
 		
 	}
 }
@@ -249,6 +258,7 @@ function line_check() {
 		}
 		if(count === 10) {
 			full_line[line] = true;
+			getPoint(1);
 		}
 		count = 0;
 	}
@@ -277,9 +287,14 @@ function delete_line() {
 				}
 			}
 		}
-
 	}
-	
+}
+function getPoint(s) {
+	const getScore = document.getElementById('score');
+	const getLine = document.getElementById('line');
+	score += s;
+	getScore.innerHTML = score*100;
+	getLine.innerHTML = score;
 }
 
 // real-time function
