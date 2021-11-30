@@ -290,11 +290,13 @@ function delete_line() {
 	}
 }
 function getPoint(s) {
-	const getScore = document.getElementById('score');
-	const getLine = document.getElementById('line');
+	let getScore = document.querySelectorAll('.score');
+	let getLine = document.querySelectorAll('.line');
 	score += s;
-	getScore.innerHTML = score*100;
-	getLine.innerHTML = score;
+	getScore[0].innerHTML = score*100;
+	getLine[0].innerHTML = score;
+	getScore[1].innerHTML = score*100;
+	getLine[1].innerHTML = score;
 }
 
 // real-time function

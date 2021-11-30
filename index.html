@@ -9,47 +9,26 @@
   <meta name="author" content="Swan" />
   <link rel="icon" type="imgs/png" href="imgs/favicon.png">
   <link rel="stylesheet" href="style.css">
+	<script src="https://kit.fontawesome.com/2223c0d7cd.js" crossorigin="anonymous"></script>
   <script src="main.js" defer></script>
 </head>
 <body>
-	<section id="main">
-		
-
+	<section id="top">
+		<div class="top">
+			<button class="menu">
+				<i class="fas fa-cog"></i>
+			</button>
+		</div>
+	</section>
+	<section id="main" class="section">
 		<!-- main -->
 		<div class="components">
-			
-
 			<div class="main">
 				<div class="above">
 					<!-- timer -->
 					<div id="timer"></div>
 				</div>
 				
-				<!-- information -->
-				<div id="left">
-					<div class="information">
-						<!-- level -->
-						<div id="level" class="space">
-							<div class="info_title">LEVEL</div>
-							<div class="info_content">1</div>
-						</div>
-						<!-- score -->
-						<div class="space">
-							<div class="info_title">SCORE</div>
-							<div id="score" class="info_content"></div>
-						</div>
-						<!-- lines -->
-						<div class="space">
-							<div class="info_title">LINE</div>
-							<div id="line" class="info_content"></div>
-						</div>
-					</div>
-				</div>
-				
-				<!-- board -->
-				<div id="board"></div>
-				
-				<!-- next block -->
 				<div id="right">
 					<div class="next__blocks">
 						<div class="info_title">NEXT</div>
@@ -98,7 +77,69 @@
 							</div>
 						</div>
 					</div>
+				</div>	
+				<!-- board -->
+				<div id="board"></div>				
+				<!-- information -->
+				<div id="left">
+					<div class="information">
+						<!-- level -->
+						<div class="space">
+							<div class="info_title">LEVEL</div>
+							<div class="level info_content">1</div>
+						</div>
+						<!-- score -->
+						<div class="space">
+							<div class="info_title">SCORE</div>
+							<div class="score info_content"></div>
+						</div>
+						<!-- lines -->
+						<div class="space">
+							<div class="info_title">LINE</div>
+							<div class="line info_content"></div>
+						</div>
+					</div>
 				</div>
+				<!-- next block -->
+			</div>
+		</div>
+	</section>
+	<section class="bottom">
+		<div class="mobile__left">
+			<div class="information">
+				<!-- level -->
+				<div class="space">
+					<div class="info_title">LEVEL</div>
+					<div class="level info_content">1</div>
+				</div>
+				<!-- score -->
+				<div class="space">
+					<div class="info_title">SCORE</div>
+					<div class="score info_content"></div>
+				</div>
+				<!-- lines -->
+				<div class="space">
+					<div class="info_title">LINE</div>
+					<div class="line info_content"></div>
+				</div>
+			</div>
+		</div>
+		<div class="key__pad">
+			<div class="rotate">
+				<button class="spaceBar">
+					<i class="fas fa-dot-circle"></i>
+				</button>
+			</div>
+			<div class="arrow">
+				<button class="arrow__left">
+					<i class="fas fa-arrow-alt-circle-left"></i>
+				</button>
+				<button class="arrow__right">
+					<i class="fas fa-arrow-alt-circle-right"></i>
+				</button>
+				<button class="arrow__down">
+					<i class="fas fa-arrow-alt-circle-down"></i>
+				</button>
 			</div>
 		</div>
 	</section>
