@@ -60,6 +60,8 @@ document.addEventListener('keydown', (event) => {
 	}
 })
 
+// menu 
+
 
 // block functions
 
@@ -290,13 +292,13 @@ function delete_line() {
 	}
 }
 function getPoint(s) {
-	let getScore = document.querySelectorAll('.score');
-	let getLine = document.querySelectorAll('.line');
+	let getScore = document.getElementById('score');
+	let getLine = document.getElementById('line');
 	score += s;
-	getScore[0].innerHTML = score*100;
-	getLine[0].innerHTML = score;
-	getScore[1].innerHTML = score*100;
-	getLine[1].innerHTML = score;
+	getScore.innerHTML = score*100;
+	getLine.innerHTML = score;
+	// getScore[1].innerHTML = score*100;
+	// getLine[1].innerHTML = score;
 }
 
 // real-time function

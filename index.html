@@ -13,135 +13,89 @@
   <script src="main.js" defer></script>
 </head>
 <body>
-	<section id="top">
-		<div class="top">
-			<button class="menu">
-				<i class="fas fa-cog"></i>
-			</button>
-		</div>
-	</section>
-	<section id="main" class="section">
-		<!-- main -->
-		<div class="components">
-			<div class="main">
-				<div class="above">
-					<!-- timer -->
-					<div id="timer"></div>
-				</div>
-				
-				<div id="right">
-					<div class="next__blocks">
-						<div class="info_title">NEXT</div>
-						<div class="next__block__board">
-							<div class="next__block">
-								<ul>
-									<li></li>
-									<li></li>
-									<li></li>
-									<li></li>
-								</ul>
-								<ul>
-									<li></li>
-									<li></li>
-									<li></li>
-									<li></li>
-								</ul>
-							</div>
-							<div class="next__block">
-								<ul>
-									<li></li>
-									<li></li>
-									<li></li>
-									<li></li>
-								</ul>
-								<ul>
-									<li></li>
-									<li></li>
-									<li></li>
-									<li></li>
-								</ul>
-							</div>
-							<div class="next__block">
-								<ul>
-									<li></li>
-									<li></li>
-									<li></li>
-									<li></li>
-								</ul>
-								<ul>
-									<li></li>
-									<li></li>
-									<li></li>
-									<li></li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>	
-				<!-- board -->
-				<div id="board"></div>				
-				<!-- information -->
-				<div id="left">
-					<div class="information">
-						<!-- level -->
-						<div class="space">
-							<div class="info_title">LEVEL</div>
-							<div class="level info_content">1</div>
-						</div>
-						<!-- score -->
-						<div class="space">
-							<div class="info_title">SCORE</div>
-							<div class="score info_content"></div>
-						</div>
-						<!-- lines -->
-						<div class="space">
-							<div class="info_title">LINE</div>
-							<div class="line info_content"></div>
-						</div>
-					</div>
-				</div>
-				<!-- next block -->
-			</div>
-		</div>
-	</section>
-	<section class="bottom">
-		<div class="mobile__left">
-			<div class="information">
-				<!-- level -->
-				<div class="space">
-					<div class="info_title">LEVEL</div>
-					<div class="level info_content">1</div>
-				</div>
-				<!-- score -->
-				<div class="space">
-					<div class="info_title">SCORE</div>
-					<div class="score info_content"></div>
-				</div>
-				<!-- lines -->
-				<div class="space">
-					<div class="info_title">LINE</div>
-					<div class="line info_content"></div>
-				</div>
-			</div>
-		</div>
-		<div class="key__pad">
-			<div class="rotate">
-				<button class="spaceBar">
-					<i class="fas fa-dot-circle"></i>
-				</button>
-			</div>
-			<div class="arrow">
-				<button class="arrow__left">
-					<i class="fas fa-arrow-alt-circle-left"></i>
-				</button>
-				<button class="arrow__right">
-					<i class="fas fa-arrow-alt-circle-right"></i>
-				</button>
-				<button class="arrow__down">
-					<i class="fas fa-arrow-alt-circle-down"></i>
-				</button>
-			</div>
-		</div>
-	</section>
+  <!-- top : menu_btn -->
+  <header id="top">
+    <div class="section">
+      <div class="favicon">
+        <i class="fas fa-cubes"></i>
+      </div>
+      <div class="go__menu">
+        <i class="fas fa-cog"></i>
+      </div>
+    </div>
+  </header>
+
+  <!-- main -->
+  <section id="main">
+    <div class="section">
+      
+      <div class="left">
+        <div id="hold">
+          <div class="info__title">HOLD</div>
+          <div class="info__content">
+            <img src="" alt="">
+          </div>
+        </div>
+        <div class="information">
+          <ul>
+            <li>
+              <div class="info__title">LEVEL</div>
+              <div id="level" class="info__content">1</div>
+            </li>
+            <li>
+              <div class="info__title">SCORE</div>
+              <div id="score" class="info__content"></div>
+            </li>
+            <li>
+              <div class="info__title">LINE</div>
+              <div id="line" class="info__content"></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="center">
+        <div id="timer"></div>
+        <div id="board"></div>
+      </div>
+      <div class="right">
+        <div class="next__block">
+          <div class="info__title">NEXT</div>
+          <div class="info__content">
+            <ul class="next">
+              <li><img src="" alt=""></li>
+              <li><img src="" alt=""></li>
+              <li><img src="" alt=""></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- menu -->
+  <section id="menu">
+    <div class="menu__box">
+      <ul>
+        <li class="menu__item">RESTART</li>
+        <li class="menu__item">LOBBY</li>
+        <li class="menu__item">SETTINGS</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- lobby -->
+
+  <!-- settings -->
+
 </body>
 </html>
+
+
+
+
+
+<!-- 
+<i class="fas fa-dot-circle"></i>
+<i class="fas fa-arrow-alt-circle-left"></i>
+<i class="fas fa-arrow-alt-circle-right"></i>
+<i class="fas fa-arrow-alt-circle-down"></i> -->
