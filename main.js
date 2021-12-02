@@ -60,7 +60,12 @@ document.addEventListener('keydown', (event) => {
 	}
 })
 
-// menu 
+// click menu
+const goMenu = document.querySelector('.go__menu');
+goMenu.addEventListener('click', () => {
+	const menuBox = document.getElementById("menu");
+	menuBox.classList.toggle('active');
+})
 
 
 // block functions

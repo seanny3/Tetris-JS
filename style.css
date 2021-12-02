@@ -5,6 +5,9 @@
   --border-size-board: 1px;
   --border-size-medium: 2px;
   --border-radius: 6px;
+
+  --color-font-border-blue: skyblue;
+  --color-font-border-white: whitesmoke;
 }
 
 /* CSS reset */
@@ -29,6 +32,12 @@ button {
   cursor: pointer;
   border: none;
   outline: none;
+}
+
+/* JS block active */
+.freeze,
+.current {
+  background-color: pink;
 }
 
 /* top */
@@ -65,18 +74,72 @@ button {
   text-align: center;
   color: white;
 }
+.go__menu:hover {
+  -webkit-text-stroke: 2px var(--color-font-border-white);
+  transform: rotate(90deg);
+  font-size: 31px;
+  color: var(--color-font-border-blue);
+  transition: all 300ms ease-in;
+}
+.menu__item:hover {
+  -webkit-text-stroke: 2px var(--color-font-border-white);
+  color: var(--color-font-border-blue);
+  transition: all 300ms ease;
+  font-size: 65px;
+}
+
+/* menu */
+#menu {
+  max-height: 0px;
+  overflow-y: hidden;
+  transition: all 300ms ease-in-out;
+  justify-content: center;
+  position: absolute;
+  width: 100%;
+}
+#menu.active {
+  max-height: 550px;
+}
+.menu__box {
+  width: 500px;
+  height: 550px;
+  background-color: skyblue;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.menu__items {
+  margin-bottom: 40px;
+}
+.menu__item {
+  width: 310px;
+  height: 120px;
+  line-height: 120px;
+  font-size: 60px;
+  font-weight: bold;
+  color: whitesmoke;
+  text-align: center;
+  border-bottom: 5px solid whitesmoke;
+  margin: 0 auto;
+  cursor: pointer;
+}
 
 /* main */
 #main {
+  /* #menu */
+  display: relative;
   background-color: skyblue;
 }
 #main .section {
   height: var(--height-main);
-
   justify-content: center;
 }
 
 /* information css */
+.info__title {
+  color: whitesmoke;
+}
 .info__title,
 .info__content {
   font-size: 20px;
@@ -85,6 +148,7 @@ button {
   margin-bottom: 5px;
 }
 .info__content {
+  color: skyblue;
   background-color: whitesmoke;
   border-radius: var(--border-radius);
 }
@@ -108,6 +172,7 @@ button {
   width: 80px;
   margin: 0 auto;
 }
+/* information */
 .information {
   margin-top: 80px;
   /* background-color: lightgrey; */
@@ -128,6 +193,7 @@ button {
   margin-left: 10px;
   margin-top: 50px;
 }
+/* next block */
 .next__block {
   /* background-color: lightgrey; */
   border-radius: var(--border-radius);
@@ -147,7 +213,7 @@ button {
 }
 
 /* center */
-
+/* board */
 #board {
   border: 4px solid white;
   border-radius: var(--border-radius);
@@ -163,16 +229,12 @@ button {
   width: 20px;
   height: 20px;
 }
+/* timer */
 #timer {
   height: 50px;
   /* background-color: whitesmoke; */
   text-align: center;
   font-size: 35px;
   font-weight: bold;
-}
-
-/* JS block active */
-.freeze,
-.current {
-  background-color: pink;
+  color: whitesmoke;
 }
