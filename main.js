@@ -41,7 +41,7 @@ document.addEventListener('keydown', (event) => {
 	}
 	const SPACEBAR = ' ';
 	switch(event.key) {
-		case SPACEBAR:
+		case 'ArrowUp':
 			let tmp = direction;
 			direction = ++direction % 4;
 			rotate_block(current_block, direction, tmp);
@@ -55,16 +55,30 @@ document.addEventListener('keydown', (event) => {
 		case 'ArrowDown':
 			move_block(current_block, direction, 1, 0);
 			break;
+		case SPACEBAR:
+			break;
 		default:
 			break;
 	}
 })
 
 // click menu
+var click_menu = false;
 const goMenu = document.querySelector('.go__menu');
 goMenu.addEventListener('click', () => {
 	const menuBox = document.getElementById("menu");
 	menuBox.classList.toggle('active');
+	// stop gameloop,timer
+	if(!click_menu) {
+		clearInterval(timer);
+		clearInterval(loop);
+		click_menu = true;
+	}
+	else if(click_menu){
+		loop = setInterval(gameLoop, speed);
+		timer = setInterval(setLeftTime, 1000);
+		click_menu = false;
+	}
 })
 
 
@@ -205,8 +219,6 @@ function freeze_block(block, current_direction) {
 		let loc_a = block[current_direction][space][0];
 		let loc_b = block[current_direction][space][1];
 		board[loc_a][loc_b].classList.add('freeze');
-		// 라인 검사
-
 		// 천장 충돌 확인
 		if(loc_a < 5) {
 			gameover = true;
@@ -290,6 +302,7 @@ function delete_line() {
 						board[i][j].classList.remove('freeze');
 						board[i+1][j].classList.add('current');
 						board[i+1][j].classList.add('freeze');
+						// effect
 					}
 				}
 			}
@@ -297,13 +310,17 @@ function delete_line() {
 	}
 }
 function getPoint(s) {
-	let getScore = document.getElementById('score');
-	let getLine = document.getElementById('line');
+	const getScore = document.getElementById('score');
+	const getLine = document.getElementById('line');
 	score += s;
 	getScore.innerHTML = score*100;
 	getLine.innerHTML = score;
-	// getScore[1].innerHTML = score*100;
-	// getLine[1].innerHTML = score;
+	getScore.classList.add('effect');
+	getLine.classList.add('effect');
+	setTimeout(() => {
+		getScore.classList.remove('effect');
+		getLine.classList.remove('effect');
+	},300)
 }
 
 // real-time function

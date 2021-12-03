@@ -148,6 +148,7 @@ button {
   margin-bottom: 5px;
 }
 .info__content {
+  height: 27px;
   color: skyblue;
   background-color: whitesmoke;
   border-radius: var(--border-radius);
@@ -156,7 +157,6 @@ button {
 /* left */
 .left {
   width: 100px;
-  height: var(--height-main);
   margin-right: 10px;
   margin-top: 53px;
 }
@@ -185,11 +185,16 @@ button {
 .information li {
   margin: 8px;
 }
+/* score,line effect */
+#score.effect,
+#line.effect {
+  font-size: 25px;
+  transition: all 300ms ease-out;
+}
 
 /* right */
 .right {
   width: 100px;
-  height: var(--height-main);
   margin-left: 10px;
   margin-top: 50px;
 }
@@ -228,6 +233,8 @@ button {
   border: 1px solid whitesmoke;
   width: 20px;
   height: 20px;
+}
+#board.effect {
 }
 /* timer */
 #timer {
