@@ -65,9 +65,10 @@ document.addEventListener('keydown', (event) => {
 // click menu
 var click_menu = false;
 const goMenu = document.querySelector('.go__menu');
-goMenu.addEventListener('click', () => {
+goMenu.addEventListener('mouseup', () => {
 	const menuBox = document.getElementById("menu");
 	menuBox.classList.toggle('active');
+	goMenu.classList.toggle('active');
 	// stop gameloop,timer
 	if(!click_menu) {
 		clearInterval(timer);
@@ -80,6 +81,19 @@ goMenu.addEventListener('click', () => {
 		click_menu = false;
 	}
 })
+
+// mobile controller
+const keypad = document.querySelectorAll('.icon');
+keypad.forEach((key) => {
+	
+	key.addEventListener('mouseup', (e) => {
+		e.target.classList.add('active');
+		setTimeout(() => {
+			e.target.classList.remove('active');
+		},90)
+	})
+})
+
 
 
 // block functions
