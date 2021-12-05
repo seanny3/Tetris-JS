@@ -84,13 +84,34 @@ goMenu.addEventListener('mouseup', () => {
 
 // mobile controller
 const keypad = document.querySelectorAll('.icon');
-keypad.forEach((key) => {
-	
+keypad.forEach((key) => {	
 	key.addEventListener('mouseup', (e) => {
 		e.target.classList.add('active');
 		setTimeout(() => {
 			e.target.classList.remove('active');
 		},90)
+
+		// move event
+		switch(e.target.parentNode.dataset.key) {
+			case "up":
+				let tmp = direction;
+				direction = ++direction % 4;
+				rotate_block(current_block, direction, tmp);
+				break;
+			case "left":
+				move_block(current_block, direction, 0, -1);
+				break;
+			case "right":
+				move_block(current_block, direction, 0, 1);
+				break;
+			case "down":
+				move_block(current_block, direction, 1, 0);
+				break;
+			case "space":
+				break;
+			default:
+				break;
+		}
 	})
 })
 
