@@ -16,7 +16,15 @@ var create_count = 0;
 var is_freeze = false;
 var gameover = false;
 var score = 0;
-var direction = 0;	// increase by 1 every time when you press 
+var direction = 0;	// increase by 1 every time when you press
+
+// next block initialize
+var next_blocks_v = [
+	Math.floor(Math.random()*7), 
+	Math.floor(Math.random()*7), 
+	Math.floor(Math.random()*7)
+];
+
 
 // get Left Time
 var time = 100;
@@ -27,6 +35,9 @@ var loop;
 // main
 document.body.onload = create_board();
 
+// print three next blocks
+next_blocks();
+console.log(next_blocks_v[2]);
 
 getPoint(score);
 init_block();
@@ -121,7 +132,11 @@ keypad.forEach((key) => {
 
 // init
 function init_block() {
-	current_block = create_block();
+	current_block = create_block(next_blocks_v[2]-1); // 스택 '선입선출'
+	// next block _ stack calc
+	next_blocks_v.pop();
+	next_blocks_v.unshift(Math.floor(Math.random()*7));
+	next_blocks();
 	direction = 0;
 	loop = setInterval(gameLoop, speed);
 	is_freeze = false;
@@ -140,7 +155,8 @@ function create_board() {
 	
 }
 // create a block
-function create_block() {
+
+function create_block(rand) {
 	const BLOCKS = [ 
 		[		// shape__1
 			[[0,0],[0,1],[1,0],[1,1]],
@@ -179,8 +195,11 @@ function create_block() {
 			[[0,0],[1,0],[2,0],[3,0]]
 		]
 	];
-	const blocks = BLOCKS[Math.floor(Math.random()*7)];
+	const blocks = BLOCKS[rand];
 	const MAX = 4;
+
+	
+
 	blocks.forEach((block) => {
 		block.forEach((space) => {
 			space[0] += 1;
@@ -357,6 +376,17 @@ function getPoint(s) {
 		getLine.classList.remove('effect');
 	},300)
 }
+
+
+// next blocks
+function next_blocks() { //n=2 >> 스택의 마지막 '선입선출'
+	const next = document.querySelectorAll('.img');
+	for(let i = next_blocks_v.length-1; i>=0; i--) {
+		next[Math.abs(i-2)].src = "./imgs/blocks/shape__" + next_blocks_v[i] + ".png";
+	}
+}
+
+
 
 // real-time function
 

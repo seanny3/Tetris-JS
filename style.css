@@ -179,6 +179,23 @@ button {
   border-radius: var(--border-radius);
 }
 
+/* blocks */
+.info__content {
+  position: relative;
+}
+.next li {
+  position: relative;
+}
+img {
+  width: 50px;
+
+  position: absolute;
+  right: 50%;
+  top: 50%;
+  left: 17px;
+  top: 25px;
+}
+
 /* left */
 .left {
   width: 100px;
