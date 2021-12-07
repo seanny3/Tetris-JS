@@ -20,9 +20,9 @@ var direction = 0;	// increase by 1 every time when you press
 
 // next block initialize
 var next_blocks_v = [
-	Math.floor(Math.random()*7), 
-	Math.floor(Math.random()*7), 
-	Math.floor(Math.random()*7)
+	Math.floor(Math.random()*7)+1, 
+	Math.floor(Math.random()*7)+1, 
+	Math.floor(Math.random()*7)+1
 ];
 
 
@@ -37,7 +37,6 @@ document.body.onload = create_board();
 
 // print three next blocks
 next_blocks();
-console.log(next_blocks_v[2]);
 
 getPoint(score);
 init_block();
@@ -135,7 +134,7 @@ function init_block() {
 	current_block = create_block(next_blocks_v[2]-1); // 스택 '선입선출'
 	// next block _ stack calc
 	next_blocks_v.pop();
-	next_blocks_v.unshift(Math.floor(Math.random()*7));
+	next_blocks_v.unshift(Math.floor(Math.random()*7)+1);
 	next_blocks();
 	direction = 0;
 	loop = setInterval(gameLoop, speed);
