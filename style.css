@@ -120,6 +120,7 @@ button {
   top: 2px;
   left: 0;
   width: 100%;
+  z-index: 1;
 }
 #menu.active {
   max-height: 550px;
@@ -171,6 +172,7 @@ button {
   font-weight: bold;
   text-align: center;
   margin-bottom: 5px;
+  cursor: default;
 }
 .info__content {
   height: 27px;
@@ -188,14 +190,19 @@ button {
 }
 img {
   width: 50px;
-
   position: absolute;
   right: 50%;
   top: 50%;
   left: 17px;
   top: 25px;
 }
-
+.img {
+  transition: all 300ms ease;
+}
+.img.active {
+  width: 40px;
+  transition: all 300ms ease;
+}
 /* left */
 .left {
   width: 100px;
@@ -212,6 +219,13 @@ img {
   height: 80px;
   width: 80px;
   margin: 0 auto;
+  transition: all 300ms ease;
+  cursor: pointer;
+}
+#hold .info__content.active {
+  width: 100px;
+  height: 100px;
+  transition: all 300ms ease;
 }
 
 /* information */

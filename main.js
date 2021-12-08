@@ -12,6 +12,7 @@ var board = new Array();
 	
 // create an undefiend direction ( current_block = BLOCK[shape] )
 var current_block;
+var if_hold_block;
 var create_count = 0;
 var is_freeze = false;
 var gameover = false;
@@ -37,7 +38,6 @@ document.body.onload = create_board();
 
 // print three next blocks
 next_blocks();
-
 getPoint(score);
 init_block();
 
@@ -70,6 +70,46 @@ document.addEventListener('keydown', (event) => {
 		default:
 			break;
 	}
+})
+
+// click hold button
+const hold = document.querySelector(".hold__block");
+var is_hold = false;
+var current_hold_block;
+var is_hold_block_use = false;
+hold.addEventListener('mouseup', () => {
+	// 사용했으면 그 블럭이 끝날 때 까지 기다리기
+	if(is_hold_block_use) {
+		return;
+	}
+
+	// hold 버튼 사용 후 한 번 더 누르면 사용
+	if(is_hold) {
+		clearInterval(loop);
+		delete_block(current_block[direction]);
+		hold.childNodes[1].src = "";
+		init_block(current_hold_block);
+		is_hold = false;
+		is_hold_block_use = true;
+		return;
+	}
+	
+	
+	is_hold = true;
+	hold.classList.add('active');
+	setTimeout(() => {
+		hold.classList.remove('active');
+	}, 120)
+
+	// bring current block
+	hold.childNodes[1].src = "./imgs/blocks/shape__" + if_hold_block + ".png";
+	current_hold_block = if_hold_block;
+	
+	// stop and next block 
+	clearInterval(loop);
+	delete_block(current_block[direction]);
+	init_block();
+	
 })
 
 // click menu
@@ -130,15 +170,20 @@ keypad.forEach((key) => {
 // block functions
 
 // init
-function init_block() {
-	current_block = create_block(next_blocks_v[2]-1); // 스택 '선입선출'
-	// next block _ stack calc
-	next_blocks_v.pop();
-	next_blocks_v.unshift(Math.floor(Math.random()*7)+1);
-	next_blocks();
-	direction = 0;
-	loop = setInterval(gameLoop, speed);
-	is_freeze = false;
+function init_block(b=false) {
+	if(b) {
+		current_block = create_block(b - 1);
+	} else {
+		current_block = create_block(next_blocks_v[2]-1); // 스택 '선입선출'
+		if_hold_block = next_blocks_v[2];
+		// next block _ stack calculation
+		next_blocks_v.pop();
+		next_blocks_v.unshift(Math.floor(Math.random()*7)+1);
+		next_blocks();
+	}
+		direction = 0;
+		loop = setInterval(gameLoop, speed);
+		is_freeze = false;
 }
 // create a board
 function create_board() {
@@ -267,6 +312,7 @@ function move_block(block, current_direction, move_upDown, move_side) {
 // freeze block
 function freeze_block(block, current_direction) {
 	is_freeze = true;
+	is_hold_block_use = false;
 	const MAX = 4;
 	for(let space = 0; space < MAX; space++) {
 		let loc_a = block[current_direction][space][0];
@@ -279,7 +325,6 @@ function freeze_block(block, current_direction) {
 			delete_block(block, current_direction);
 		}
 	}
-	
 }
 // crash check
 function is_crash(block, current_direction, move_upDown=0, move_side=0) {
@@ -382,6 +427,10 @@ function next_blocks() { //n=2 >> 스택의 마지막 '선입선출'
 	const next = document.querySelectorAll('.img');
 	for(let i = next_blocks_v.length-1; i>=0; i--) {
 		next[Math.abs(i-2)].src = "./imgs/blocks/shape__" + next_blocks_v[i] + ".png";
+		next[i].classList.add('active');
+		setTimeout(() => {
+			next[i].classList.remove('active');
+		},150)
 	}
 }
 
