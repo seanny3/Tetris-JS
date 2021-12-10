@@ -18,7 +18,7 @@ var is_freeze = false;
 var gameover = false;
 var score = 0;
 var direction = 0;	// increase by 1 every time when you press
-
+var click_delay = 120;
 // next block initialize
 var next_blocks_v = [
 	Math.floor(Math.random()*7)+1, 
@@ -26,22 +26,37 @@ var next_blocks_v = [
 	Math.floor(Math.random()*7)+1
 ];
 
-
 // get Left Time
-var time = 100;
-var timer = setInterval(setLeftTime, 1000);
+const t = 1000;
+var time = t;
+var timer;
+
 // loop
-const speed = 300;
+const speed = 200;
 var loop;
-// main
+
+// create board
 document.body.onload = create_board();
-
-// print three next blocks
-next_blocks();
 getPoint(score);
-init_block();
+setLeftTime();
 
-
+// click game start
+const gameStart = document.querySelector('.start');
+const game__start = document.querySelector('.game__start');
+gameStart.addEventListener('mouseup', () => {
+	gameStart.classList.add('active');
+	setTimeout(() => {
+		gameStart.classList.remove('active');
+	},click_delay)
+	game__start.classList.add('active');
+	
+	// start
+	timer = setInterval(setLeftTime, 1000);
+	// print three next blocks
+	next_blocks();
+	getPoint(score);
+	init_block();
+})
 
 // keyboard eventlistener
 document.addEventListener('keydown', (event) => {
@@ -85,6 +100,10 @@ hold.addEventListener('mouseup', () => {
 
 	// hold 버튼 사용 후 한 번 더 누르면 사용
 	if(is_hold) {
+		hold.classList.add('active');
+		setTimeout(() => {
+			hold.classList.remove('active');
+		}, click_delay)
 		clearInterval(loop);
 		delete_block(current_block[direction]);
 		hold.childNodes[1].src = "";
@@ -94,12 +113,11 @@ hold.addEventListener('mouseup', () => {
 		return;
 	}
 	
-	
 	is_hold = true;
 	hold.classList.add('active');
 	setTimeout(() => {
 		hold.classList.remove('active');
-	}, 120)
+	}, click_delay)
 
 	// bring current block
 	hold.childNodes[1].src = "./imgs/blocks/shape__" + if_hold_block + ".png";
@@ -112,11 +130,12 @@ hold.addEventListener('mouseup', () => {
 	
 })
 
+
 // click menu
 var click_menu = false;
 const goMenu = document.querySelector('.go__menu');
+const menuBox = document.getElementById("menu");
 goMenu.addEventListener('mouseup', () => {
-	const menuBox = document.getElementById("menu");
 	menuBox.classList.toggle('active');
 	goMenu.classList.toggle('active');
 	// stop gameloop,timer
@@ -132,6 +151,25 @@ goMenu.addEventListener('mouseup', () => {
 	}
 })
 
+// click menu items
+const menu_items = document.querySelector('.menu__items');
+menu_items.addEventListener('mouseup', (e) => {	
+	switch(e.target.dataset.link) {
+		case 'restart':
+			menuBox.classList.remove('active');
+			goMenu.classList.remove('active');
+			game__start.classList.remove('active');
+			restart();
+			break;
+		case 'lobby':
+			break;
+		case 'settings':
+			break;
+		default:
+			break;
+	}
+})
+
 // mobile controller
 const keypad = document.querySelectorAll('.icon');
 keypad.forEach((key) => {	
@@ -139,7 +177,7 @@ keypad.forEach((key) => {
 		e.target.classList.add('active');
 		setTimeout(() => {
 			e.target.classList.remove('active');
-		},90)
+		},click_delay)
 
 		// move event
 		switch(e.target.parentNode.dataset.key) {
@@ -158,7 +196,7 @@ keypad.forEach((key) => {
 				move_block(current_block, direction, 1, 0);
 				break;
 			case "space":
-				break;
+				
 			default:
 				break;
 		}
@@ -196,7 +234,15 @@ function create_board() {
 			target_row.insertAdjacentElement('beforeend', board[i][j]);
 		}
 	}
-	
+}
+function init_board() {
+	const target = document.querySelector('#board');
+	for(let i = 0; i < HEIGHT; i++) {
+		for(let j = 0; j < WIDTH; j++) {
+			board[i][j].classList.remove('freeze');
+			board[i][j].classList.remove('current');
+		}
+	}
 }
 // create a block
 
@@ -421,7 +467,6 @@ function getPoint(s) {
 	},300)
 }
 
-
 // next blocks
 function next_blocks() { //n=2 >> 스택의 마지막 '선입선출'
 	const next = document.querySelectorAll('.img');
@@ -433,7 +478,15 @@ function next_blocks() { //n=2 >> 스택의 마지막 '선입선출'
 		},150)
 	}
 }
-
+// init hold, next block
+function init_hold_next_block() {
+	const next_blocks = document.querySelectorAll('.img');
+	const hold = document.querySelector('.hold__block');
+	next_blocks.forEach((next_block) => {
+		next_block.src = "";
+	})
+	hold.childNodes[1].src = "";
+}
 
 
 // real-time function
@@ -457,6 +510,37 @@ function gameLoop() {
 		return;
 	}
 	move_block(current_block, direction, 1, 0);
+}
+
+// restart
+function restart() {
+	clearInterval(timer);
+	time = t;
+	timer = null;
+	setLeftTime();
+	clearInterval(loop);
+	loop = null;
+
+	delete_block(current_block[direction]);
+	current_block = null;
+	if_hold_block = null;
+	create_count = 0;
+	is_freeze = false;
+	gameover = false;
+	score = 0;
+	direction = 0;
+	is_hold = false;
+	current_hold_block = null;
+	is_hold_block_use = false;
+	click_menu = false;
+	next_blocks_v = [
+		Math.floor(Math.random()*7)+1, 
+		Math.floor(Math.random()*7)+1, 
+		Math.floor(Math.random()*7)+1
+	];
+	init_board();
+	init_hold_next_block();
+
 }
 
 
