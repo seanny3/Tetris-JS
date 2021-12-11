@@ -164,6 +164,7 @@ menu_items.addEventListener('mouseup', (e) => {
 		case 'lobby':
 			break;
 		case 'settings':
+			
 			break;
 		default:
 			break;
@@ -540,7 +541,6 @@ function restart() {
 	];
 	init_board();
 	init_hold_next_block();
-
 }
 
 
