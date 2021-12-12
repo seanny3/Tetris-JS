@@ -317,7 +317,6 @@ img {
   position: absolute;
   top: 0;
   left: 0;
-  
 }
 #board ul:nth-child(n + 1):nth-child(-n + 5) {
   display: none;
@@ -369,11 +368,6 @@ img {
     color: rgb(241, 183, 193);
     -webkit-text-stroke: 2px var(--color-font-border-white);
   }
-  .hard__down {
- 110   display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
   .arrow__btn {
     width: 250px;
     display: flex;
@@ -421,7 +415,15 @@ img {
   #board {
     border-width: 3px;
   }
-  
+  .start {
+    font-size: 28px;
+  }
+  .start.active {
+    font-size: 37px;
+  }
+  .start:hover {
+    font-size: 37px;
+  }
   #board li {
     width: 13px;
     height: 13px;
