@@ -43,25 +43,30 @@
             <ul class="sound">
               <li class="setting__title">음향설정</li>
               <li class="setting">
-                <div class="sound__title">
-                  배경음악
-                </div>
-                <input type="range" class="bgm" name="bgm" min="0" max="100" step="10">
+                <form action="url" class="" method="post">
+                  <div class="s__title">
+                    배경음악
+                  </div>
+                  <input type="range" class="bgm" name="bgm" min="0" max="100" step="10">
+                </form>
               </li>
               <li class="setting">
-                <form action="url" class="" method="post"></form>
-                <div class="sound__title">
-                  효과음
-                </div>
-                <input type="range" class="bgm" name="bgm" min="0" max="100" step="10">
+                <form action="url" class="" method="post">
+                  <div class="s__title">
+                    효과음
+                  </div>
+                  <input type="range" class="effect__sound" name="effect__sound" min="0" max="100" step="10">
+                </form>
               </li>
             </ul>
             <ul class="in__game">
               <li class="setting__title">게임설정</li>
               <li class="setting">
                 <form action="url" class="" method="post">
-                  <div>난이도</div>
-                  <input type="range" class="bgm" name="bgm" min="0" max="100" step="10">
+                  <div class="s__title">
+                    난이도
+                  </div>
+                  <input type="range" class="level" name="level" min="0" max="100" step="10">
                 </form>
               </li>
             </ul>

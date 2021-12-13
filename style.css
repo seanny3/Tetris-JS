@@ -149,6 +149,9 @@ button {
   margin: 0 auto;
   cursor: pointer;
 }
+.settings {
+  display: none;
+}
 
 /* main */
 #main {

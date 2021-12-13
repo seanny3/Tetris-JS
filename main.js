@@ -32,7 +32,7 @@ var time = t;
 var timer;
 
 // loop
-const speed = 200;
+const speed = 500;
 var loop;
 
 // create board
@@ -164,7 +164,7 @@ menu_items.addEventListener('mouseup', (e) => {
 		case 'lobby':
 			break;
 		case 'settings':
-			
+
 			break;
 		default:
 			break;
