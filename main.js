@@ -32,7 +32,7 @@ var time = t;
 var timer;
 
 // loop
-const speed = 500;
+const speed = 650;
 var loop;
 
 // create board
